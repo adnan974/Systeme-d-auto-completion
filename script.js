@@ -1,26 +1,52 @@
+
 var searchInputid = document.getElementById("search_bar");
 var resultDivid = document.getElementById("result1");
 var xhr = new XMLHttpRequest();
 
-// Ajouter un élement HTML dans le dom
-/*
-var newDiv = document.createElement("div");
-var newDivText = document.createTextNode('test');
-newDiv.appendChild(newDivText);
-newDiv.id = "result2";
-resultDivid.appendChild(newDiv);
-*/
 
-searchInputid.addEventListener('keyup',function(e){
-    
-    xhr.open("GET","serveur.php?"+"inputSearch="+searchInputid.value);
+
+function sendAJaxRequest() {
+
+    xhr.open("GET", "serveur.php?" + "inputSearch=" + searchInputid.value);
     xhr.send(null);
 
+}
+
+function createDiv(className, textNodeValue) {
+    var uneDiv = document.createElement("div");
+    let textNodeForDiv = document.createTextNode(textNodeValue);
+    uneDiv.className = className;
+    uneDiv.appendChild(textNodeForDiv);
+    return uneDiv;
+
+}
+
+function removeDivByClassName(classNameValue) {
+    let classNameArray = document.querySelectorAll("." + classNameValue);
+    classNameArray.forEach(element => {
+        element.parentElement.removeChild(element);
+    });
+}
+
+searchInputid.addEventListener('keyup', function (e) {
+    if (xhr.readyState < 5) {
+        xhr.abort();
+    }
+
+    removeDivByClassName("resultDiv");
+
+    sendAJaxRequest();
 })
 
-xhr.addEventListener('readystatechange',function(){
+
+xhr.addEventListener('readystatechange', function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
-        console.log('recu');
-        console.log(xhr.responseText);
+        
+        let responseArray = xhr.responseText.split('|');
+
+        responseArray.forEach(element => {
+            let newDiv = createDiv("resultDiv", element);
+            resultDivid.appendChild(newDiv);
+        });
     }
 })

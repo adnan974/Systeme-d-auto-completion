@@ -1,5 +1,4 @@
 <?php
-	echo'test';
 	$data = unserialize(file_get_contents('towns.txt')); // Récupération de la liste complète des villes
 	$dataLen = count($data);
 	
