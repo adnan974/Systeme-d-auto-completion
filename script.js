@@ -3,26 +3,24 @@ var resultDivid = document.getElementById("result1");
 var xhr = new XMLHttpRequest();
 
 // Ajouter un élement HTML dans le dom
-/*var newDiv = document.createElement("div");
+/*
+var newDiv = document.createElement("div");
 var newDivText = document.createTextNode('test');
 newDiv.appendChild(newDivText);
 newDiv.id = "result2";
-resultDivid.appendChild(newDiv);*/
-
-
+resultDivid.appendChild(newDiv);
+*/
 
 searchInputid.addEventListener('keyup',function(e){
-    if(xhr.readyState < 5){
-        xhr.abort();
-    }
+    
     xhr.open("GET","serveur.php?"+"inputSearch="+searchInputid.value);
-    xhr.send();
+    xhr.send(null);
 
 })
 
 xhr.addEventListener('readystatechange',function(){
     if (xhr.readyState === XMLHttpRequest.DONE) {
-
+        console.log('recu');
+        console.log(xhr.responseText);
     }
-    
 })
